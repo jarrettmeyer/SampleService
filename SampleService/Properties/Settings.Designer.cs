@@ -31,5 +31,23 @@ namespace SampleService.Properties {
                 return ((string)(this["LogFileName"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10000")]
+        public int IntervalInMS {
+            get {
+                return ((int)(this["IntervalInMS"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseTimerAutoReset {
+            get {
+                return ((bool)(this["UseTimerAutoReset"]));
+            }
+        }
     }
 }

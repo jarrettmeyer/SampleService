@@ -5,5 +5,11 @@
     <Setting Name="LogFileName" Type="System.String" Scope="Application">
       <Value Profile="(Default)">log.txt</Value>
     </Setting>
+    <Setting Name="IntervalInMS" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10000</Value>
+    </Setting>
+    <Setting Name="UseTimerAutoReset" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

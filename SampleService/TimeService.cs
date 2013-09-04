@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Timers;
+using SampleService.Properties;
 
 namespace SampleService
 {
     public class TimeService
     {
-        private const int INTERVAL_IN_MILLISECONDS = 5000;
-        private const bool USE_TIMER_AUTO_RESET = true;
+        private readonly static int intervalInMilliseconds = Settings.Default.IntervalInMS;
         private readonly ILogger logger;
         private readonly Timer timer;
+        private readonly static bool useTimerAutoReset = Settings.Default.UseTimerAutoReset;
 
         public TimeService(ILogger logger)
         {
             this.logger = logger;
-            timer = new Timer(INTERVAL_IN_MILLISECONDS)
+            timer = new Timer(intervalInMilliseconds)
                     {
-                        AutoReset = USE_TIMER_AUTO_RESET
+                        AutoReset = useTimerAutoReset
                     };
-            timer.Elapsed += (s, e) => logger.Write(string.Format("Time Service: {0}.", DateTime.Now));
+            timer.Elapsed += (s, e) => logger.Write(string.Format("Time Service says, 'The time is now {0}.'", DateTime.Now));
         }
 
         public void Start()
