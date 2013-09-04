@@ -16,7 +16,7 @@ namespace SampleService
             this.logger = logger;
             timer = new Timer(intervalInMilliseconds)
                     {
-                        AutoReset = useTimerAutoReset
+                        AutoReset = useTimerAutoReset,
                     };
             timer.Elapsed += (s, e) => logger.Write(string.Format("Time Service says, 'The time is now {0}.'", DateTime.Now));
         }

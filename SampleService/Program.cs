@@ -1,39 +1,49 @@
 ﻿using System;
-using System.Threading;
 using Topshelf;
 
 namespace SampleService
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        private static bool isRunMode;
+        private static ILogger logger;
+
+        public static void Main(string[] args)
         {
-            //if (Environment.UserInteractive)
-            //{
-            //    TimeService timeService = new TimeService(new ConsoleLogger());
-            //    timeService.Start();
-            //    Thread.Sleep(TimeSpan.FromSeconds(10.0));
-            //    timeService.Stop();
-            //}
-            //else
-            //{
-                HostFactory.Run(cfg =>
+            InitializeLogger(args);
+            InitializeServiceHostFactory();
+        }
+
+        private static void InitializeLogger(string[] args)
+        {
+            isRunMode = ArgumentChecker.CheckArgumentValue(args, 0, "run");
+            if (isRunMode)
+            {
+                logger = new ConsoleLogger();
+                Console.WriteLine("Using console.");
+            }
+            else
+            {
+                logger = new FileLogger();
+                Console.WriteLine("Using file.");
+            }
+        }
+
+        private static void InitializeServiceHostFactory()
+        {
+            HostFactory.Run(cfg =>
+            {
+                cfg.Service<TimeService>(s =>
                 {
-                    cfg.Service<TimeService>(s =>
-                    {
-                        s.ConstructUsing(_ => new TimeService(new FileLogger()));
-                        s.WhenStarted(ts => ts.Start());
-                        s.WhenStopped(ts => ts.Stop());
-                    });
-                    cfg.RunAsLocalSystem();
-                    cfg.SetDescription("Sample Time Service");
-                    cfg.SetDisplayName("Sample_Time_Service");
-                    cfg.SetServiceName("Sample_Time_Service");
+                    s.ConstructUsing(_ => new TimeService(logger));
+                    s.WhenStarted(ts => ts.Start());
+                    s.WhenStopped(ts => ts.Stop());
                 });
-                
-            //}
-
-
+                cfg.RunAsLocalSystem();
+                cfg.SetDescription("Sample Time Service");
+                cfg.SetDisplayName("Sample_Time_Service");
+                cfg.SetServiceName("Sample_Time_Service");
+            });
         }
     }
 }
