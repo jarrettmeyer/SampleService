@@ -1,0 +1,1 @@
+.\SampleService\bin\Debug\SampleService.exe uninstall

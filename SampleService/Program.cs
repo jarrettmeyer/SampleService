@@ -8,15 +8,15 @@ namespace SampleService
     {
         static void Main(string[] args)
         {
-            if (Environment.UserInteractive)
-            {
-                TimeService timeService = new TimeService(new ConsoleLogger());
-                timeService.Start();
-                Thread.Sleep(TimeSpan.FromSeconds(10.0));
-                timeService.Stop();
-            }
-            else
-            {
+            //if (Environment.UserInteractive)
+            //{
+            //    TimeService timeService = new TimeService(new ConsoleLogger());
+            //    timeService.Start();
+            //    Thread.Sleep(TimeSpan.FromSeconds(10.0));
+            //    timeService.Stop();
+            //}
+            //else
+            //{
                 HostFactory.Run(cfg =>
                 {
                     cfg.Service<TimeService>(s =>
@@ -31,7 +31,7 @@ namespace SampleService
                     cfg.SetServiceName("Sample_Time_Service");
                 });
                 
-            }
+            //}
 
 
         }
