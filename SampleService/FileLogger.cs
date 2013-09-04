@@ -1,17 +1,18 @@
 ﻿using System.IO;
-using System.Text;
+using SampleService.Properties;
 
 namespace SampleService
 {
     public class FileLogger : ILogger
     {
-        private const string FILE_NAME = "log.txt";
+        private readonly static string fileName = Settings.Default.LogFileName;
 
         public void Write(string message)
         {
-            using (var fileStream = new FileStream(FILE_NAME, FileMode.Append))
+            using (var fileStream = new FileStream(fileName, FileMode.Append))
             {
-                byte[] bytes = Encoding.UTF8.GetBytes(message + "\n\n");
+                message = message.Append("\n\n");
+                byte[] bytes = message.ToUTF8ByteArray();
                 int length = bytes.Length;
                 fileStream.Write(bytes, 0, length);
             }
