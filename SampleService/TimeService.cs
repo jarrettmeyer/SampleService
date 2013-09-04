@@ -8,17 +8,15 @@ namespace SampleService
     {
         private readonly static int intervalInMilliseconds = Settings.Default.IntervalInMS;
         private readonly ILogger logger;
-        private readonly Timer timer;
+        private Timer timer;
         private readonly static bool useTimerAutoReset = Settings.Default.UseTimerAutoReset;
 
         public TimeService(ILogger logger)
         {
+            if (logger == null)
+                throw new ArgumentNullException("logger");
             this.logger = logger;
-            timer = new Timer(intervalInMilliseconds)
-                    {
-                        AutoReset = useTimerAutoReset,
-                    };
-            timer.Elapsed += (s, e) => logger.Write(string.Format("Time Service says, 'The time is now {0}.'", DateTime.Now));
+            InitializeTimer();
         }
 
         public void Start()
@@ -31,6 +29,16 @@ namespace SampleService
         {
             timer.Stop();
             logger.Write("Time Service was stopped.");
+        }
+
+        private void InitializeTimer()
+        {
+            timer = new Timer
+            {
+                AutoReset = useTimerAutoReset,
+                Interval = intervalInMilliseconds
+            };
+            timer.Elapsed += (s, e) => logger.Write(string.Format("Time Service says, 'The time is now {0}.'", DateTime.Now));
         }
     }
 }
